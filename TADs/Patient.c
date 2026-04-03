@@ -19,5 +19,6 @@ struct _Patient
     int     Health;
     int     Saciety;
     double  salary;
-
+    int     stock_foodCert;
+    int     stock_food;
 };

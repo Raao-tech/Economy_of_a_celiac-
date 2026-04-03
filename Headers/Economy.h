@@ -13,7 +13,7 @@ typedef struct _Economy Economy;
 
 /*---------- (Create/Destroy) -------- */
 Economy* economy_create();
-Status   economy_destroy();
+void     economy_destroy(Economy* economy);
 
 /*---------- (set/get)  Name -------- */
 Status  economy_set_name(Economy* economy,char* name);
@@ -30,3 +30,8 @@ double	economy_get_price_foodCert(Economy* economy);
 /*---------- (set/get)  Price Food -------- */
 Status  economy_set_price_food(Economy* economy,double price);
 double	economy_get_price_food(Economy* economy);
+
+
+/*=================== DEBUG ==========================*/
+
+int economy_debug(Economy* economy, char* output);

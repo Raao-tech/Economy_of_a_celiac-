@@ -15,5 +15,6 @@ struct _Engine
 	Economy*	economy;
 	Patient*	patient;
 	Months		month;
+	
 
 };
