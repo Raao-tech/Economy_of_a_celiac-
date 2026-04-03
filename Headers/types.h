@@ -1,4 +1,44 @@
-typedef Status enum {ERROR, OK};
+/*Manejo de Errores*/
+typedef enum 
+{
+    ERROR, 
+    OK
+}Status;
 
-typedef ECONOMY_CHOOSE enum { UNKNOW, MADRID, CARACAS, ALMERIA, BARINAS};
-typedef PATIENT_CHOOSE enum { UNKNOW, UPPER_CLASS, MIDDLE_CLASS, LOWER_CLASS};
+
+/*Choose to menu*/
+typedef enum 
+{ 
+    UNKNOW, 
+    MADRID, 
+    CARACAS, 
+    ALMERIA, 
+    BARINAS
+}EcoChoose;
+
+typedef enum 
+{ 
+    UNKNOW, 
+    UPPER_CLASS, 
+    MIDDLE_CLASS, 
+    LOWER_CLASS
+}PatChoose;
+
+
+/*Monuths of year*/
+typedef enum 
+{ 
+    UNKNOW, 
+    JANUARY, 
+    FEBRUARY, 
+    MARCH,
+    APRIL,
+    MAY,
+    JUNE,
+    JULY,
+    AUGUST,
+    SEPTEMBER,
+    OCTOBER,
+    NOVEMBER,
+    DECEMBER
+}Months;
