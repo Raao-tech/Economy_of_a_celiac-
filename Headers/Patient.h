@@ -11,3 +11,21 @@
 
 
 typedef struct _Patient Patient;
+
+
+/*---------- (Create/Destroy) -------- */
+Patient* patient_create();
+Status   patient_destroy(Patient* patient);
+
+/*---------- (set/get)  Name -------- */
+Status  patient_set_name(Patient* patient,const char* name);
+char*	patient_get_name(Patient* patient);
+
+/*---------- (set/get)  Inflation -------- */
+Status  economy_set_Inflation(Patient* patient,const double inlfation);
+double	economy_get_Inflation(Patient* patient);
+
+
+/*=================== DEBUG ==========================*/
+
+int patient_debug(Patient* patient, char* output);
