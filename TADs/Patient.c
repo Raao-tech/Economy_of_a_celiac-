@@ -61,7 +61,7 @@ double	patient_get_health(Patient* patient)
 }
 
 /*========== (Set/Get) Name ==============*/
-Status patient_set_name(Patient* patient, char* name)
+Status patient_set_name(Patient* patient, const char* name)
 {
 	if(!patient || !name) return ERROR;
 	if(patient->name){
