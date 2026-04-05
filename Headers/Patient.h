@@ -22,8 +22,8 @@ Status  patient_set_name(Patient* patient,const char* name);
 char*	patient_get_name(Patient* patient);
 
 /*---------- (set/get)  Inflation -------- */
-Status  economy_set_Inflation(Patient* patient,const double inlfation);
-double	economy_get_Inflation(Patient* patient);
+Status  patient_set_Inflation(Patient* patient,const double inlfation);
+double	patient_get_Inflation(Patient* patient);
 
 
 /*=================== DEBUG ==========================*/

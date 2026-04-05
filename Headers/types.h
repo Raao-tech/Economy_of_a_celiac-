@@ -25,7 +25,7 @@ typedef enum
     UPPER_CLASS, 
     MIDDLE_CLASS, 
     LOWER_CLASS
-}PatChoose;
+}SocialClass;
 
 
 /*Monuths of year*/
@@ -45,3 +45,8 @@ typedef enum
     NOVEMBER,
     DECEMBER
 }Months;
+
+/*Indicadores HEALTH*/
+#define MAX_HEALTH 1.0
+#define MIN_HEALTH 0.0
+#define ERROR_HEALTH -1.0

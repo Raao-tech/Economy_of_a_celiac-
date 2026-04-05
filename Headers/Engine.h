@@ -27,7 +27,7 @@ Patient*	engine_get_patient(Engine* engine);
 Status		engine_set_month(Engine* engine, Months month);
 Months		engine_get_month(Engine* engine);
 
-
+Status      engine_next_month(Engine* engine);
 
 /*========== PRINT ==========*/
 int		engine_print(Engine* engine);

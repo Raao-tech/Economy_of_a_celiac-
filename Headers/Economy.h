@@ -11,7 +11,7 @@
 
 typedef struct _Economy Economy;
 
-/*---------- (Create/Destroy) -------- */
+/*---------- (Create/Destroy) Economy -------- */
 Economy* economy_create();
 Status   economy_destroy(Economy* economy);
 
