@@ -81,8 +81,7 @@ Months		engine_get_month(Engine* engine)
 Status		engine_next_month(Engine* engine)
 {
 	if(!engine) return ERROR;
-
-	/*Aca ira la lgica para actualizar el estado de la economia y el paciente*/
+	
 }
 /*========== PRINT ==========*/
 int		engine_print(Engine* engine);
