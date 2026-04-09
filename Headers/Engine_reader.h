@@ -13,11 +13,12 @@
 #include "types.h"
 #include "Engine.h"
 
-Status  engine_reader_file(Engine*  engine, char*   namefile){
-    if(!engine || !namefile) return ERROR;
+/*  Esta funcion lee un archvivo .txt con los datos economicos */
+Status  engine_reader_file_economy(Engine*  engine, char*   namefile);
 
-    //leo el texto
-    
-    
-
-}
+/*  
+*   Esta funcion lee un archvivo .txt 
+*   con los datos socioeconomicos y medicos 
+*   del paciente 
+*/
+Status  engine_reader_file_patient(Engine*  engine, char*   namefile);

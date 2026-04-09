@@ -1,6 +1,9 @@
 #include "stdio.h"
 #include "stdlib.h"
 
+#define  WORD_SIZE 256
+#define  ERROR_INT -1
+
 /*Manejo de Errores*/
 typedef enum 
 {
@@ -27,6 +30,9 @@ typedef enum
     LOWER_CLASS
 }SocialClass;
 
+typedef double Gdp; //definimos el tipo de dato Gdp para el PIB
+typedef double Price; //definimos el tipo de dato Price para precio
+typedef double Event; //definimos el tipo de dato Event para los eventos aleatorios (shoks)
 
 /*Monuths of year*/
 typedef enum 

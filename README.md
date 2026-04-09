@@ -15,8 +15,18 @@ engine_next_month(Engine* engine), es la formula que sigue el BCE.
                            **cuando (PIB_r - PIB_I = 0).
                 Nosotros los calcumaos de forma sencilla pero no exacta,usamos los datos
                 historicos del PIB de la economia elegida por elmnsuario, y liuego decimos
-                que el PIB ideal es su maximo hsiorico, mientras que su Pib real es el que se vaya dando aleatoriamente en un array de PIBs hsotoricos bajasdos des un datasheet de uan fuente
+                que el PIB ideal es su maximo hsiorico, mientras que su Pib real es el que se haya dado el "año pasado" osea, el ultimo pib agrgado al historial
+
+                En este caso su factor "b" se puede itnerpretar como el aumento de demanda ( b --> infinito) o disminucion de esta (b ---> -infinito).  Siendo una economía sobre demandante e incapaz de satisfacer dicha demanda (inflacionaria),  o una economia de muy baja demanda volviendola escasamente consumidora  y muy ahorrativa (defalcioanria)  Respectivamente.
         \## Choque(t) : 
                         es un valor aleatorio, suele ser calculado expresando subidas en el
                         precio de la energia. (podemos generarlo con time)
-                        
+    Hay una posible modificacion a fututro que puede ser implementada con el fin de ser mucho mas exactos, pero el PIB ideal de una economia es calcualda como la d
+
+
+
+
+    la Estrucutura de Economy esta pensada para hacer el hsitorial del Producto interno bruto
+
+
+    Pesnando bien la estrcutra del proyecto, lo que haremos es lo siguiente,  en cada file text se tendra un compedio de los utimos 5 años con sus respectvos PIBs por cada economia presente, leugo,  calcularemos la media del crecimiento 
