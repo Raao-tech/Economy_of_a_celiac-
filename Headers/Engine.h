@@ -1,35 +1,38 @@
 /**
- * @brief It define struct public Engine of the simulator
+ * @brief Engine TAD - simulation loop coordinator
  *
  * @file        Engine.h
  * @author      Rafael
- * @version     0.0
+ * @version     1.1
  * @date        4-4-2026
  * @copyright   GNU Public License
  */
+#ifndef ENGINE_H
+#define ENGINE_H
+
 #include "types.h"
 #include "Economy.h"
 #include "Patient.h"
 
 typedef struct _Engine Engine;
 
-/*----- (Create/Destroy) Engine ------ */
+/* ---- Create / Destroy ---- */
 Engine* engine_create();
 Status  engine_destroy(Engine* engine);
 
-/*----- (set/get) Economy ------ */
-Economy*	engine_get_economy(Engine* engine);
+/* ---- Accessors ---- */
+Economy*  engine_get_economy(Engine* engine);
+Patient*  engine_get_patient(Engine* engine);
+int       engine_get_month(Engine* engine);
+int       engine_get_year(Engine* engine);
 
-/*----- (set/get) Patient ------*/
-Patient*	engine_get_patient(Engine* engine);
+/* ---- Event log from last month ---- */
+const char* engine_get_last_event(Engine* engine);
 
-/*----- (set/get) Month ------*/
-Status		engine_set_month(Engine* engine, Months month);
-Months		engine_get_month(Engine* engine);
+/* ---- Core simulation step (now uses player's action) ---- */
+Status  engine_next_month(Engine* engine, PlayerAction action, int seed);
 
-/*This funtion realiza el calculo de los datos futuros*/
-Status      engine_next_month(Engine* engine);
+/* ---- Print ---- */
+Status  engine_print(Engine* engine, FILE* out);
 
-
-/*========== PRINT ==========*/
-int		engine_print(Engine* engine);
+#endif /* ENGINE_H */

@@ -1,31 +1,47 @@
 /**
- * @brief It define struct type Patient
+ * @brief Patient TAD - celiac patient state
  *
  * @file        Patient.h
  * @author      Rafael
- * @version     0.0
+ * @version     1.0
  * @date        4-4-2026
  * @copyright   GNU Public License
  */
-#include "types.h"
+#ifndef PATIENT_H
+#define PATIENT_H
 
+#include "types.h"
 
 typedef struct _Patient Patient;
 
-
-/*---------- (Create/Destroy) -------- */
+/* ---- Create / Destroy ---- */
 Patient* patient_create();
 Status   patient_destroy(Patient* patient);
 
-/*---------- (set/get)  Name -------- */
-Status  patient_set_name(Patient* patient,const char* name);
-char*	patient_get_name(Patient* patient);
+/* ---- Name ---- */
+Status       patient_set_name(Patient* p, const char* name);
+const char*  patient_get_name(Patient* p);
 
-/*---------- (set/get)  Inflation -------- */
-Status  patient_set_Inflation(Patient* patient,const double inlfation);
-double	patient_get_Inflation(Patient* patient);
+/* ---- Health ---- */
+Status  patient_set_health(Patient* p, double h);
+double  patient_get_health(Patient* p);
 
+/* ---- Social class ---- */
+Status      patient_set_social_class(Patient* p, SocialClass sc);
+SocialClass patient_get_social_class(Patient* p);
 
-/*=================== DEBUG ==========================*/
+/* ---- Purchasing power (derived from social class) ---- */
+double  patient_get_purchasing_power(Patient* p);
 
-int patient_debug(Patient* patient, char* output);
+/* ---- Stock certified ---- */
+Status  patient_set_stock_foodCert(Patient* p, int stock);
+int     patient_get_stock_foodCert(Patient* p);
+
+/* ---- Stock non-certified ---- */
+Status  patient_set_stock_food(Patient* p, int stock);
+int     patient_get_stock_food(Patient* p);
+
+/* ---- Debug ---- */
+Status  patient_debug(Patient* p, FILE* out);
+
+#endif /* PATIENT_H */

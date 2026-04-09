@@ -1,148 +1,206 @@
 /**
- * @brief It define struct type Engine of the simulator
+ * @brief Engine TAD implementation
  *
  * @file        Engine.c
  * @author      Rafael
- * @version     0.0
+ * @version     1.1
  * @date        4-4-2026
  * @copyright   GNU Public License
  */
-
 #include "../Headers/Engine.h"
 
-struct _Engine
-{
-	Economy*	economy;
-	Patient*	patient;
-	Months		month;
+#define EVENT_BUF_SIZE 512
 
+struct _Engine {
+    Economy*  economy;
+    Patient*  patient;
+    int       month;
+    int       year;
+    int       total_months;
+    char      last_event[EVENT_BUF_SIZE];
 };
 
-//variacion en las tasas de ccriemiento te GDP
-#define	MIN_RATIO -0.2
-#define	MAX_RATIO  0.2
+/* ================================================================ */
 
-//Efectos Externos (Eventos)
-#define MIN_EXTER  -0.5
-#define MAX_EXTER   0.5
-
-
-
-/*----- (Create/Destroy) Engine ------ */
 Engine* engine_create()
 {
-	Engine* new_engine = (Engine*) malloc(sizeof(Engine));
-	if(!new_engine) return NULL;
+    Engine* eng = (Engine*)malloc(sizeof(Engine));
+    if (!eng) return NULL;
 
-	/*Economy*/
-	new_engine->economy = engine_create();
-	if(!new_engine->economy){
-		free(new_engine);
-		return NULL;
-	}
+    eng->economy = economy_create();
+    eng->patient = patient_create();
 
-	/*Patient*/
-	new_engine->patient = patient_create();
-	if(!new_engine->patient){
-		economy_destroy(new_engine->economy);
-		free(new_engine);
-		return NULL;
-	}
+    if (!eng->economy || !eng->patient) {
+        economy_destroy(eng->economy);
+        patient_destroy(eng->patient);
+        free(eng);
+        return NULL;
+    }
 
-	new_engine->month = JANUARY;
+    eng->month = JANUARY;
+    eng->year  = 2018;
+    eng->total_months = 0;
+    eng->last_event[0] = '\0';
 
-	return new_engine;
-} 
-Status  engine_destroy(Engine* engine)
+    return eng;
+}
+
+Status engine_destroy(Engine* eng)
 {
-	if(!engine) return ERROR;
-	if(engine->economy) economy_destroy(engine->economy);
-	if(engine->patient) patient_destroy(engine->patient);
-	free(engine);
-	return OK;
+    if (!eng) return ERROR;
+    economy_destroy(eng->economy);
+    patient_destroy(eng->patient);
+    free(eng);
+    return OK;
 }
 
-/*----- (get) Economy ------ */
-Economy*	engine_get_economy(Engine* engine)
+/* ================================================================ */
+
+Economy* engine_get_economy(Engine* eng)  { return eng ? eng->economy : NULL; }
+Patient* engine_get_patient(Engine* eng)  { return eng ? eng->patient : NULL; }
+int      engine_get_month(Engine* eng)    { return eng ? eng->month : ERROR_INT; }
+int      engine_get_year(Engine* eng)     { return eng ? eng->year : ERROR_INT; }
+
+const char* engine_get_last_event(Engine* eng)
 {
-	if(!engine || !engine->economy) return NULL;
-	return engine->economy;
+    if (!eng) return "";
+    return eng->last_event;
 }
 
-/*----- (get) Patient ------*/
-Patient*	engine_get_patient(Engine* engine)
+/* ================================================================
+ *  Core simulation step
+ *
+ *  Each month has 3 phases:
+ *    1. PURCHASE — player decides what to buy (or abstain)
+ *    2. CONSUME  — patient eats from stock (cert first, then normal)
+ *    3. ECONOMY  — inflation advances, prices update
+ * ================================================================ */
+
+Status engine_next_month(Engine* engine, PlayerAction action, int seed)
 {
-	if(!engine || !engine->patient) return NULL;
-	return engine->patient;
+    Economy*  eco;
+    Patient*  pat;
+    double    power, price_cert, price_food;
+    double    health;
+    int       pos = 0;
+
+    if (!engine) return ERROR;
+
+    eco = engine->economy;
+    pat = engine->patient;
+    if (!eco || !pat) return ERROR;
+
+    power      = patient_get_purchasing_power(pat);
+    price_cert = economy_get_price_foodCert(eco);
+    price_food = economy_get_price_food(eco);
+    health     = patient_get_health(pat);
+
+    /* Clear event log */
+    engine->last_event[0] = '\0';
+
+    /* ---- PHASE 1: PURCHASE (player's decision) ---- */
+    switch (action) {
+        case BUY_CERTIFIED:
+            if (power >= price_cert) {
+                patient_set_stock_foodCert(pat, patient_get_stock_foodCert(pat) + 1);
+                pos += sprintf(engine->last_event + pos,
+                    "[+] Compraste comida certificada (-%.2f EUR)\n", price_cert);
+            } else {
+                pos += sprintf(engine->last_event + pos,
+                    "[!] No puedes permitirte comida certificada (%.2f > %.0f)\n",
+                    price_cert, power);
+            }
+            break;
+
+        case BUY_NONCERTIFIED:
+            if (power >= price_food) {
+                patient_set_stock_food(pat, patient_get_stock_food(pat) + 1);
+                pos += sprintf(engine->last_event + pos,
+                    "[+] Compraste comida NO certificada (-%.2f EUR)\n", price_food);
+            } else {
+                pos += sprintf(engine->last_event + pos,
+                    "[!] No puedes permitirte ninguna comida (%.2f > %.0f)\n",
+                    price_food, power);
+            }
+            break;
+
+        case ABSTAIN:
+            pos += sprintf(engine->last_event + pos,
+                "[-] Decidiste no comprar este mes\n");
+            break;
+    }
+
+    /* ---- PHASE 2: CONSUME (automatic, always happens) ---- */
+    if (patient_get_stock_foodCert(pat) > 0) {
+        patient_set_stock_foodCert(pat, patient_get_stock_foodCert(pat) - 1);
+        pos += sprintf(engine->last_event + pos,
+            "[OK] Comiste comida certificada (seguro)\n");
+    } else if (patient_get_stock_food(pat) > 0) {
+        patient_set_stock_food(pat, patient_get_stock_food(pat) - 1);
+
+        /* Probabilistic contamination */
+        srand(seed);
+        double roll = (double)rand() / RAND_MAX;
+        if (roll < PROB_CONTAMINATION) {
+            health -= DAMAGE_NONCERT;
+            pos += sprintf(engine->last_event + pos,
+                "[!!] Comiste comida NO certificada -> CONTAMINACION! (salud -%.0f)\n",
+                DAMAGE_NONCERT);
+        } else {
+            pos += sprintf(engine->last_event + pos,
+                "[~] Comiste comida NO certificada (sin contaminacion esta vez)\n");
+        }
+    } else {
+        health -= DAMAGE_HUNGER;
+        pos += sprintf(engine->last_event + pos,
+            "[!!!] No tienes comida -> HAMBRE (salud -%.0f)\n", DAMAGE_HUNGER);
+    }
+
+    /* Clamp health */
+    if (health < MIN_HEALTH) health = MIN_HEALTH;
+    patient_set_health(pat, health);
+
+    /* ---- PHASE 3: ECONOMY (inflation advances) ---- */
+    double inf = economy_get_inflation_current(eco);
+    double monthly_inf = inf / 12.0 / 100.0;
+
+    double new_price_food = economy_get_price_food(eco) * (1.0 + monthly_inf);
+    economy_set_price_food(eco, new_price_food);
+    economy_set_price_foodCert(eco, new_price_food * economy_get_factor_celiaco(eco));
+
+    /* Phillips curve: inflation adjusts towards future estimate */
+    double stab = economy_get_stabilization_speed(eco);
+    double new_inf = inf + stab * (economy_get_inflation_future(eco) - inf);
+    economy_set_inflation_current(eco, new_inf);
+
+    /* GDP growth */
+    if (economy_get_n_months(eco) > 0) {
+        Gdp last_gdp = economy_get_gdp_last(eco);
+        double gdp_growth = economy_get_growth_average(eco);
+        if (gdp_growth == 0.0) gdp_growth = 2.0;
+        Gdp new_gdp = last_gdp * (1.0 + gdp_growth / 12.0 / 100.0);
+        economy_push_gdp(eco, new_gdp);
+    }
+
+    /* Advance calendar */
+    engine->month++;
+    if (engine->month > DECEMBER) {
+        engine->month = JANUARY;
+        engine->year++;
+    }
+    engine->total_months++;
+
+    return OK;
 }
 
-/*----- (set/get) Month ------*/
-Status		engine_set_month(Engine* engine, Months month)
+/* ================================================================ */
+
+Status engine_print(Engine* eng, FILE* out)
 {
-	if(!engine ||  month == UNKNOW) return ERROR;
-
-	
-	engine->month = month;
-	return OK;
+    if (!eng || !out) return ERROR;
+    fprintf(out, "=== Month %d / Year %d (total: %d months) ===\n",
+            eng->month, eng->year, eng->total_months);
+    economy_debug(eng->economy, out);
+    patient_debug(eng->patient, out);
+    return OK;
 }
-Months		engine_get_month(Engine* engine)
-{
-	if(!engine) return UNKNOW;
-	return engine->month;
-}
-
-Status		engine_next_month(Engine* engine, int	seed_time)
-{
-	Patient*	patient = NULL;
-	Economy*	economy = NULL;
-
-	/* Datos tmp para economy*/
-	double		economy_inf_fut;	/*inf*/
-	double		economy_inf_curr;
-
-	double		economy_gdp_fut;	/*PIB*/
-	double		economy_gdp_curr;
-	double		economy_gdp_last;
-	double		economy_gdp_grate;
-	double		economy_gdp_variation;
-
-	double		shock_rate;
-	double		shock_velocity;
-	double		shock_external;
-
-	if(!engine) return ERROR;
-	patient = engine_get_patient(engine);
-	economy = engine_get_economy(engine);
-	if(!patient || economy) return ERROR;
-
-	//establecemos los valores del GDP
-	economy_gdp_curr = economy_get_gdp_current(economy);
-	economy_gdp_last = economy_get_gdp_last(economy);
-	economy_gdp_grate = economy_calculating_gdp_growth_rate(economy);
-	shock_rate = engine_number_ramdon()
-
-	economy_gdp_variation = 
-
-
-
-	//la inflacion de mañana, ahora es la de hoy, y la inflacion de mañana, la claculamos a partir de  la de hoy
-	economy_inf_curr = economy_get_inflation_future(economy); //inlfacion de mañana es la de hoy
-
-
-	economy_inf_fut =  
-	/**/
-
-
-	
-	
-}
-
-double	engine_number_ramdon(double min, double max, unsigned int seed_time){
-	srand(seed_time); // inicializamos la semilla aleatoria
-	double rand_number = ((double)rand())/RAND_MAX; //nos creamos un numero alatrio entre [seed_time/seed_time+n , 1]
-	double tam_set = max - min; //tamaño del rango
-	return ((rand_number*tam_set) + min);
-}
-
-/*========== PRINT ==========*/
-int		engine_print(Engine* engine);
