@@ -20,7 +20,10 @@ contaminacion muy alto*/
 struct _Economy
 {
     char*   name;
-    double  inflation;
+    double  pib_current;
+    double  pib_future;
+    double  inflation_current;
+    double  inflation_future;
     double  price_foodCert;
     double  price_food;
 };
@@ -32,10 +35,11 @@ Economy* economy_create()
     Economy* new_economy = (Economy*) malloc(sizeof(Economy));
     if(!new_economy) return NULL;
 
-    new_economy->inflation =        0.0;
-    new_economy->name =             NULL;
-    new_economy->price_food =       0.0;
-    new_economy->price_foodCert =   0.0;
+    new_economy->inflation_current =        0.0;
+    new_economy->inflation_project =        0.0;
+    new_economy->name =                     NULL;
+    new_economy->price_food =               0.0;
+    new_economy->price_foodCert =           0.0;
 
     return new_economy;
 }

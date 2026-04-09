@@ -19,9 +19,12 @@ Status   economy_destroy(Economy* economy);
 Status  economy_set_name(Economy* economy,const char* name);
 char*	economy_get_name(Economy* economy);
 
-/*---------- (set/get)  Inflation -------- */
-Status  economy_set_Inflation(Economy* economy,const double inlfation);
-double	economy_get_Inflation(Economy* economy);
+/*---------- (set/get)  Inflation  (Current/future)-------- */
+Status  economy_set_inflation_current(Economy* economy, const double inf);
+double  economy_get_inflation_current(Economy* economy);
+
+Status  economy_set_inflation_future(Economy* economy, const double inf);
+double  economy_get_inflation_future(Economy* economy);
 
 /*---------- (set/get)  Price FoodCert -------- */
 Status  economy_set_price_foodCert(Economy* economy,const double price);

@@ -69,6 +69,8 @@ Patient*	engine_get_patient(Engine* engine)
 Status		engine_set_month(Engine* engine, Months month)
 {
 	if(!engine ||  month == UNKNOW) return ERROR;
+
+	
 	engine->month = month;
 	return OK;
 }
@@ -80,7 +82,26 @@ Months		engine_get_month(Engine* engine)
 
 Status		engine_next_month(Engine* engine)
 {
+	Patient*	patient = NULL;
+	Economy*	economy = NULL;
+
+	/* Datos tmp para economy*/
+	double		economy_inf_fut;	/*inf*/
+	double		economy_inf_curr;
+	double		economy_pib_fut;	/*PIB*/
+	double		economy_pib_curr;
+
 	if(!engine) return ERROR;
+	patient = engine_get_patient(engine);
+	economy = engine_get_economy(engine);
+	if(!patient || economy) return ERROR;
+
+	//la inflacion de mañana, ahora es la de hoy, y la inflacion de mañana, la claculamos a partir de  la de hoy
+	economy_set_inflation_current()
+	/**/
+
+
+	
 	
 }
 /*========== PRINT ==========*/

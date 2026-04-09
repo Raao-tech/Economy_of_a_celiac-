@@ -17,10 +17,10 @@ contaminacion muy alto*/
 struct _Patient
 {
     char*   	name;
-    double  	health; /*Puede disminuir  al comer comida no certificada    Y disminuira una unidad cuando Saciety este menor a 33/100*/
+    double  	health; 		/*Puede disminuir  al comer comida no certificada    Y disminuira una unidad cuando Saciety este menor a 33/100*/
 	SocialClass	social_classs;
     int     	stock_foodCert; /*Comida certificada acumulada*/
-    int     	stock_food; /*Comida No certificada acumulada, se acabara despeus de que se acabe la acumulada*/
+    int     	stock_food; 	/*Comida No certificada acumulada, se acabara despeus de que se acabe la acumulada*/
 };
 
 
@@ -61,9 +61,9 @@ double	patient_get_health(Patient* patient)
 }
 
 /*========== (Set/Get) Name ==============*/
-Status patient_set_name(Patient* patient, const char* name)
-{
+Status patient_set_name(Patient* patient, const char* name){
 	if(!patient || !name) return ERROR;
+	//si existe, libera y limpia
 	if(patient->name){
 		free(patient->name);
 		patient->name = NULL;
@@ -76,8 +76,7 @@ Status patient_set_name(Patient* patient, const char* name)
 	strcpy(patient->name, name);
 	return OK;
 }
-char* 	patient_get_name(Patient* patient)
-{
+char* 	patient_get_name(Patient* patient){
 	if(!patient || !patient->name) return NULL;
 	return strdup(patient->name);
 }

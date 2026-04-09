@@ -18,5 +18,5 @@ engine_next_month(Engine* engine), es la formula que sigue el BCE.
                 que el PIB ideal es su maximo hsiorico, mientras que su Pib real es el que se vaya dando aleatoriamente en un array de PIBs hsotoricos bajasdos des un datasheet de uan fuente
         \## Choque(t) : 
                         es un valor aleatorio, suele ser calculado expresando subidas en el
-                        precio de la energia
+                        precio de la energia. (podemos generarlo con time)
                         
