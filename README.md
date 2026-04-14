@@ -46,6 +46,14 @@ El programa leerá datos de pacientes y economías desde los archivos en las car
 - `README.md`: Este archivo.
 - `LICENSE`: Licencia del proyecto.
 
+## Anexos/UserInterface/Menus
+     <img width="922" height="859" alt="menu_1.png" />
+    <img width="922" height="859" alt="menu_2.png" />
+    <img width="922" height="859" alt="menu_3.png" />
+   
+
+
+
 ## Contribución
 
 Si deseas contribuir al proyecto, por favor abre un issue o envía un pull request en el repositorio. Asegúrate de seguir las mejores prácticas de código y documentar cualquier cambio.
