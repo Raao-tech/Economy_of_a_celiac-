@@ -47,9 +47,11 @@ El programa leerá datos de pacientes y economías desde los archivos en las car
 - `LICENSE`: Licencia del proyecto.
 
 ## Anexos/UserInterface/Menus
-     <img width="922" height="859" alt="menu_1.png" />
-    <img width="922" height="859" alt="menu_2.png" />
-    <img width="922" height="859" alt="menu_3.png" />
+<p align="center">
+  <img src="menu_1.png" width="30%" alt="Inicio">
+  <img src="menu_2.png" width="30%" alt="Simulacion">
+  <img src="menu_3.png" width="30%" alt="Fin">
+</p>
    
 
 
