@@ -1,0 +1,63 @@
+# Economy data file — Caracas
+# Estimación basada en proyecciones de indicadores de consumo urbano
+# Nota: Los datos de PIB son nominales ajustados para la simulación
+#(Me lo he inventado un poco, he preguntado a conocidos y use mis conocimientos en el lugar para)
+#(poder estimar los datos, no es para nada fiable, al igual que los datos de Barinas)
+
+Name: Caracas
+Stabilization_speed: 0.1500
+
+Inflation_current: 150.0000
+Inflation_future:  80.0000
+
+Price_food: 45.00
+Factor_celiaco: 5.5000
+
+# PIB mensual estimado (ajustado por volatilidad cambiaria)
+PIB: 2018-01 9500.000
+PIB: 2018-02 9320.450
+PIB: 2018-03 9150.120
+PIB: 2018-04 8900.550
+PIB: 2018-05 8750.300
+PIB: 2018-06 8500.000
+PIB: 2018-07 8300.220
+PIB: 2018-08 8100.880
+PIB: 2018-09 7950.400
+PIB: 2018-10 7700.150
+PIB: 2018-11 7500.900
+PIB: 2018-12 7200.000
+PIB: 2019-01 7000.500
+PIB: 2019-02 6850.330
+PIB: 2019-03 6700.100
+PIB: 2019-04 6500.950
+PIB: 2019-05 6300.400
+PIB: 2019-06 6100.000
+PIB: 2019-07 6000.550
+PIB: 2019-08 5900.200
+PIB: 2019-09 5850.800
+PIB: 2019-10 5800.100
+PIB: 2019-11 5750.450
+PIB: 2019-12 5700.000
+PIB: 2020-01 5500.200
+PIB: 2020-02 5300.400
+PIB: 2020-03 5100.600
+PIB: 2020-04 4900.800
+PIB: 2020-05 4700.000
+PIB: 2020-06 4500.200
+PIB: 2020-07 4300.400
+PIB: 2020-08 4100.600
+PIB: 2020-09 4000.800
+PIB: 2020-10 3900.000
+PIB: 2020-11 3850.500
+PIB: 2020-12 3800.000
+PIB: 2021-01 3850.250
+PIB: 2021-02 3900.500
+PIB: 2021-03 3950.750
+PIB: 2021-04 4000.000
+PIB: 2021-05 4050.250
+PIB: 2021-06 4100.500
+PIB: 2021-07 4150.750
+PIB: 2021-08 4200.000
+PIB: 2021-09 4250.250
+PIB: 2021-10 4300.500
+PIB: 2021-11 4350.750

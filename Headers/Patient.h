@@ -30,7 +30,8 @@ double  patient_get_health(Patient* p);
 Status      patient_set_social_class(Patient* p, SocialClass sc);
 SocialClass patient_get_social_class(Patient* p);
 
-/* ---- Purchasing power (derived from social class) ---- */
+/* ---- Purchasing power (derivate of economy) ---- */
+Status patient_set_purchasing_power(Patient* p, double salary);
 double  patient_get_purchasing_power(Patient* p);
 
 /* ---- Stock certified ---- */

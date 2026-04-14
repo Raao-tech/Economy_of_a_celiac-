@@ -1,46 +1,62 @@
-# Economy_of_a_celiac-
-This is a project for the computer science and society subject at the UAM.    It simulates the economic and physical situation of a celiac based on macroeconomic variables and microeconomic decisions.  Programmed in C... is the initial idea
+# Economy_of_a_celiac
 
+## Descripción
 
+Este proyecto es un simulador económico diseñado para modelar el impacto financiero de la enfermedad celíaca en pacientes. El simulador calcula el poder adquisitivo de individuos afectados por la celiaquía, teniendo en cuenta los costos asociados con la alimentación sin gluten y otros factores económicos. Programado en C, forma parte de la asignatura de Informática y Sociedad en la UAM.
 
-La idea que se va a usar para pdoer calcular la infalcion del siguiente mes, presente en la funcion
-engine_next_month(Engine* engine), es la formula que sigue el BCE.
+## Justificación
 
-    \## La Curva de Phillips NeoKeynessiana (la Curva de Phillips)
-        ** Inf (hoy) = a * Inf(mañana) + b * Brecha_productiva(t) +  Choque(t)
-    Siendo:
-        \## Brecha Pruductiva: 
-                           **Es el porcentaje de variacion entre el PIB real y el PIB ideal 
-                           **de la economía presente, siendo el punto idilico, 
-                           **cuando (PIB_r - PIB_I = 0).
-                Nosotros los calcumaos de forma sencilla pero no exacta,usamos los datos
-                historicos del PIB de la economia elegida por elmnsuario, y liuego decimos
-                que el PIB ideal es su maximo hsiorico, mientras que su Pib real es el que se haya dado el "año pasado" osea, el ultimo pib agrgado al historial
+La enfermedad celíaca afecta a un porcentaje significativo de la población, obligando a los pacientes a seguir una dieta estricta sin gluten. Los productos sin gluten suelen ser más caros, lo que reduce significativamente el poder adquisitivo de las personas afectadas. Este simulador busca cuantificar estos efectos económicos para concienciar sobre la necesidad de políticas de apoyo y accesibilidad a alimentos sin gluten a precios asequibles.
 
-                En este caso su factor "b" se puede itnerpretar como el aumento de demanda ( b --> infinito) o disminucion de esta (b ---> -infinito).  Siendo una economía sobre demandante e incapaz de satisfacer dicha demanda (inflacionaria),  o una economia de muy baja demanda volviendola escasamente consumidora  y muy ahorrativa (defalcioanria)  Respectivamente.
-        \## Choque(t) : 
-                        es un valor aleatorio, suele ser calculado expresando subidas en el
-                        precio de la energia. (podemos generarlo con time)
-    Hay una posible modificacion a fututro que puede ser implementada con el fin de ser mucho mas exactos, pero el PIB ideal de una economia es calcualda como la d
+## Limitaciones
 
+El simulador tiene una limitación importante: no tiene en cuenta el costo de la vida más allá del dinero. Esto incluye aspectos como el impacto en la calidad de vida, el estrés emocional, las restricciones sociales y otros factores no monetarios que afectan a los pacientes celíacos. Esta omisión es la razón por la cual el monto que se aprecia como poder adquisitivo resulta tan poco realista y bajo en comparación con la realidad.
 
+Además, para que sea un simulador fiel a la realidad, debería incluir la posibilidad de aumentar sus ingresos así como una variable de cashflow que le permita ahorrar.
 
+## Instalación
 
-    la Estrucutura de Economy esta pensada para hacer el hsitorial del Producto interno bruto
+Para compilar el proyecto, asegúrate de tener un compilador de C instalado (como GCC). Ejecuta el siguiente comando en la raíz del proyecto:
 
+```bash
+make
+```
 
-    Pesnando bien la estrcutra del proyecto, lo que haremos es lo siguiente,  en cada file text se tendra un compedio de los utimos 5 años con sus respectvos PIBs por cada economia presente, leugo,  calcularemos la media del crecimiento 
+Esto generará el ejecutable principal.
 
+## Uso
 
+Después de compilar, ejecuta el simulador con:
 
-1. Velocidad de Convergencia (Speed of Convergence)
-Es el término más común en el Modelo de Crecimiento de Solow. Se refiere a la rapidez con la que una economía cierra la brecha entre su estado actual y su estado estacionario (el promedio o nivel de equilibrio).
+```bash
+./make run
+```
 
-2. Coeficiente de Reversión a la Media (Mean Reversion Coefficient)
-Este nombre se usa en el contexto de las Series Temporales (como el modelo de Vasicek en finanzas). Define la "fuerza" con la que el valor es arrastrado de vuelta hacia el promedio a largo plazo.
+El programa leerá datos de pacientes y economías desde los archivos en las carpetas `Patients/` y `Economys/`, y generará resultados basados en los cálculos definidos en el código.
 
-3. Factor de Amortiguamiento (Damping Factor)
-Si ves la economía como un sistema físico (como un péndulo o un muelle), λ es lo que evita que el sistema oscile locamente. Es el rozamiento que frena los impulsos exagerados de los shocks (ϵ) para estabilizar el sistema.
+## Estructura del Proyecto
+
+- `main.c`: Archivo principal que inicia el simulador.
+- `Makefile`: Script de compilación.
+- `Headers/`: Contiene los archivos de cabecera (.h) para las estructuras de datos y funciones.
+- `Src/`: Código fuente de los motores (Engine_reader.c, Graphic_engine.c).
+- `TADs/`: Implementaciones de los Tipos Abstractos de Datos (Economy.c, Engine.c, Patient.c).
+- `Patients/`: Archivos de datos de pacientes por ciudad.
+- `Economys/`: Archivos de datos económicos por ciudad.
+- `README.md`: Este archivo.
+- `LICENSE`: Licencia del proyecto.
+
+## Contribución
+
+Si deseas contribuir al proyecto, por favor abre un issue o envía un pull request en el repositorio. Asegúrate de seguir las mejores prácticas de código y documentar cualquier cambio.
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+
+## Autor
+
+Raao-tech
 
 
 

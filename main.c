@@ -46,9 +46,9 @@ int main()
 
     /* ---- 3. Class ---- */
     printf("\n  Selecciona clase social del paciente:\n");
-    printf("    1. Clase alta   (poder adquisitivo: %.0f EUR/mes)\n", POWER_UPPER);
-    printf("    2. Clase media  (poder adquisitivo: %.0f EUR/mes)\n", POWER_MIDDLE);
-    printf("    3. Clase baja   (poder adquisitivo: %.0f EUR/mes)\n", POWER_LOWER);
+    printf("    1. Clase alta\n");
+    printf("    2. Clase media\n");
+    printf("    3. Clase baja\n");
     printf("\n  > ");
     if (scanf("%d", &class_choice) != 1 || class_choice < 1 || class_choice > 3) {
         printf("  Seleccion invalida. Usando clase media.\n");
@@ -63,7 +63,24 @@ int main()
         return 1;
     }
 
-    filename = reader_get_filename(city);
+    if(patient_set_social_class(engine_get_patient(engine), sclass) == ERROR){
+        fprintf(stderr, "Error: no se pudo asignar la clase social.\n");
+        engine_destroy(engine);
+        return 1;
+    }
+
+    /* Load Clase social de patient*/
+    filename = reader_get_filename_patient(city);
+    if (!filename || reader_load_patient(filename, engine_get_patient(engine)) == ERROR) {
+        fprintf(stderr, "Error: no se pudo cargar '%s'.\n",
+                filename ? filename : "(null)");
+        engine_destroy(engine);
+        return 1;
+    } 
+
+
+    /* Load de economy*/
+    filename = reader_get_filename_economy(city);
     if (!filename || reader_load_economy(filename, engine_get_economy(engine)) == ERROR) {
         fprintf(stderr, "Error: no se pudo cargar '%s'.\n",
                 filename ? filename : "(null)");
@@ -72,8 +89,7 @@ int main()
     }
 
     patient_set_name(engine_get_patient(engine), "Paciente");
-    patient_set_social_class(engine_get_patient(engine), sclass);
-
+    
     switch (sclass) {
         case UPPER_CLASS:
             patient_set_stock_foodCert(engine_get_patient(engine), STOCK_CERT_UPPER);

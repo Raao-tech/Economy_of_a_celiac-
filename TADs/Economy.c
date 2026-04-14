@@ -3,7 +3,7 @@
  *
  * @file        Economy.c
  * @author      Rafael
- * @version     1.0
+ * @version     2.0
  * @date        4-4-2026
  * @copyright   GNU Public License
  */

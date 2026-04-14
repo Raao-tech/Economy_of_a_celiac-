@@ -1,0 +1,4 @@
+#Purchasing power by social class (EUR/month for food) 
+Clase_alta: 1000
+Clase_media: 800
+Clase_baja: 200

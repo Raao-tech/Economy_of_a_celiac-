@@ -76,10 +76,6 @@ typedef double Price;
 #define MAX_INFLATION  500.0
 #define MIN_INFLATION -100.0
 
-/* ---- Purchasing power by social class (EUR/month for food) ---- */
-#define POWER_UPPER    800.0
-#define POWER_MIDDLE   400.0
-#define POWER_LOWER    180.0
 
 /* ---- Valores de stocks iniciales por clase ---- */
 #define STOCK_CERT_UPPER    8

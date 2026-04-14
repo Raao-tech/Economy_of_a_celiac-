@@ -15,6 +15,7 @@ struct _Patient {
     SocialClass social_class;
     int         stock_foodCert;
     int         stock_food;
+    double      salary;
 };
 
 /* ---- Create / Destroy ---- */
@@ -97,12 +98,14 @@ SocialClass patient_get_social_class(Patient* p)
 double patient_get_purchasing_power(Patient* p)
 {
     if (!p) return 0.0;
-    switch (p->social_class) {
-        case UPPER_CLASS:  return POWER_UPPER;
-        case MIDDLE_CLASS: return POWER_MIDDLE;
-        case LOWER_CLASS:  return POWER_LOWER;
-        default:           return POWER_MIDDLE;
-    }
+    return p->salary;
+}
+
+Status patient_set_purchasing_power(Patient* p, double salary)
+{
+    if (!p || salary<0.0) return ERROR;
+    p->salary = salary;
+    return OK;
 }
 
 /* ---- Stock certified ---- */
