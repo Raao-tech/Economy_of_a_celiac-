@@ -29,7 +29,7 @@ Esto generará el ejecutable principal.
 Después de compilar, ejecuta el simulador con:
 
 ```bash
-./make run
+make run
 ```
 
 El programa leerá datos de pacientes y economías desde los archivos en las carpetas `Patients/` y `Economys/`, y generará resultados basados en los cálculos definidos en el código.
